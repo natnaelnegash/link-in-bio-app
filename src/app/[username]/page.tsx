@@ -13,6 +13,7 @@ async function getUserProfile(username: string) {
     select: {
       id: true,
       displayName: true,
+      bio: true,
       avatarUrl: true,
       theme: true,
       links: {
@@ -37,7 +38,8 @@ type UserProfilePageProps = {
 export default async function UserProfilePage({
   params,
 }: UserProfilePageProps) {
-  const userProfile = await getUserProfile(params.username);
+  const { username } = params;
+  const userProfile = await getUserProfile(username);
 
   if (!userProfile) {
     notFound();
@@ -61,15 +63,20 @@ export default async function UserProfilePage({
         <div className="flex flex-col items-center text-center">
           <Image
             src={userProfile.avatarUrl || "/default-avatar.png"}
-            alt={userProfile.displayName || params.username}
+            alt={userProfile.displayName || username}
             width={96}
             height={96}
             className="h-24 w-24 rounded-full"
             priority
           />
           <h1 className="mt-4 text-2xl font-bold">
-            {userProfile.displayName || `@${params.username}`}
+            {userProfile.displayName || `@${username}`}
           </h1>
+          {userProfile.bio && (
+            <p className="mt-2 max-w-md text-muted-foreground">
+              {userProfile.bio || "Bio"}
+            </p>
+          )}
         </div>
 
         <div className="mt-8 w-full space-y-4">

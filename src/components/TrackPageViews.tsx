@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export function TrackPageView({ userId }: { userId: string }) {
+export function TrackPageView({ userId }: { userId: string }): null {
   useEffect(() => {
     fetch("/api/analytics/track-view", {
       method: "POST",

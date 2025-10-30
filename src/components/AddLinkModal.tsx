@@ -43,7 +43,7 @@ export function AddLinkModal({ isOpen, setIsOpen }: AddLinkModalProps) {
 
       router.refresh();
     } else {
-      const data = response.json();
+      const data = await response.json();
       console.log(data);
       setError(data?.error || "Couldnt add link");
     }

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@/generated/prisma"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 const prisma = new PrismaClient()
 
@@ -9,8 +9,8 @@ type RouteParams = {
     }
 }
 
-export async function GET(request: Request, {params}: RouteParams) {
-    const {linkId} = params
+export async function GET(request: NextRequest, context: { params: Promise<{ linkId: string }> }) {
+    const {linkId} = await context.params
     
     try {
         const link = await prisma.link.findUnique({

@@ -3,6 +3,7 @@ import { PrismaClient } from "@/generated/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
+import { revalidatePath } from 'next/cache';
 
 const prisma  = new PrismaClient()
 
@@ -16,7 +17,7 @@ export async function PATCH( request: Request ) {
     const formdata = await request.formData()
     const displayName = formdata.get('displayName') as string
     const bio = formdata.get('bio') as string | null
-    const avatarFile = formdata.get('avatarUrl') as File
+    const avatarFile = formdata.get('avatar') as File
 
     let avatarUrl: string | undefined = undefined
 
@@ -26,4 +27,18 @@ export async function PATCH( request: Request ) {
         })
         avatarUrl = blob.url
     }
+
+    const updatedData : {displayName?: string, bio?: string, avatarUrl?: string } = {}
+    if (displayName) updatedData.displayName = displayName
+    if (bio !== null) updatedData.bio = bio
+    if (avatarUrl) updatedData.avatarUrl = avatarUrl
+
+    await prisma.user.update({
+        where: {id: session.user.id},
+        data: updatedData
+    })
+
+    revalidatePath(`/${session.user.username}`)
+
+    return NextResponse.json({message: 'Updated user profile successfully'}, {status: 200})
 }
