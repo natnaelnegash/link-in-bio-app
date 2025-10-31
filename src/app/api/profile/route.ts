@@ -16,8 +16,8 @@ export async function PATCH( request: Request ) {
 
     const formdata = await request.formData()
     const displayName = formdata.get('displayName') as string
-    const bio = formdata.get('bio') as string | null
-    const avatarFile = formdata.get('avatar') as File
+    const bio = formdata.get('bio') as string
+    const avatarFile = formdata.get('avatar') as File || null
 
     let avatarUrl: string | undefined = undefined
 

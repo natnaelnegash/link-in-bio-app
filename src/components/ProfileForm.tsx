@@ -46,7 +46,9 @@ export function ProfileForm({
     const formData = new FormData();
     formData.append("displayName", displayName);
     formData.append("bio", bio);
-    if (avatarFile) formData.append("avatar", avatarFile);
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
+    }
 
     await fetch("/api/profile", {
       method: "PATCH",
