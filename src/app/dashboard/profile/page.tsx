@@ -22,6 +22,7 @@ export default async function ProfilePage() {
   if (!session || !session.user.id) redirect("/login");
 
   const profile = await getUserProfile(session.user.id);
+  // console.log(profile);
 
   return (
     <div className="max-w-2xl container mx-auto">

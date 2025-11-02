@@ -11,9 +11,11 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { AddLinkModal } from "./AddLinkModal";
 import { useState } from "react";
+import { usePreviewStore } from "@/lib/store";
 
 export function AddBlockMenu() {
   const [isLinkModalOpen, setLinkIsModalOpen] = useState(false);
+  const { triggerRefresh } = usePreviewStore();
 
   const router = useRouter();
 
@@ -27,6 +29,7 @@ export function AddBlockMenu() {
     });
 
     if (response.ok) {
+      triggerRefresh();
       router.refresh();
     } else {
       alert("Failed to add heading");

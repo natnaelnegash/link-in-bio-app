@@ -16,6 +16,7 @@ import { Button } from "./ui/button";
 import { Edit2, Pencil } from "lucide-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { usePreviewStore } from "@/lib/store";
 
 type UpdateLinkButtonProps = {
   link: Link;
@@ -26,6 +27,7 @@ export function UpdateLinkButton({ link }: UpdateLinkButtonProps) {
   const [title, setTitle] = useState(link.title);
   const [url, setUrl] = useState(link.url);
   const [error, setError] = useState<string | null>(null);
+  const { triggerRefresh } = usePreviewStore();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +48,7 @@ export function UpdateLinkButton({ link }: UpdateLinkButtonProps) {
       }),
     });
     if (response.ok) {
+      triggerRefresh();
       setIsOpen(false);
       router.refresh();
     } else {

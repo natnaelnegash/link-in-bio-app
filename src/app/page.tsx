@@ -6,9 +6,9 @@ export default function Home() {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Link in Bio App</h1>
         <p className="text-lg text-muted-foreground mb-6">
-          Test of shadcn ui setup
+          Have no account? Create one
         </p>
-        <Button size="lg">Shadcn button</Button>
+        <Button size="lg">Get Started</Button>
       </div>
     </main>
   );

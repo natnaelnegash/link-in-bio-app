@@ -40,6 +40,7 @@ export default async function UserProfilePage({
 }: UserProfilePageProps) {
   const { username } = params;
   const userProfile = await getUserProfile(username);
+  console.log(userProfile);
 
   if (!userProfile) {
     notFound();
@@ -66,7 +67,7 @@ export default async function UserProfilePage({
             alt={userProfile.displayName || username}
             width={96}
             height={96}
-            className="h-24 w-24 rounded-full"
+            className="h-24 w-24 rounded-full object-cover"
             priority
           />
           <h1 className="mt-4 text-2xl font-bold">

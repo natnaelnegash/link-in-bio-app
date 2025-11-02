@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
+import { usePreviewStore } from "@/lib/store";
 
 type DeleteLinkButtonProps = {
   linkId: string;
@@ -21,6 +22,7 @@ type DeleteLinkButtonProps = {
 
 export function DeleteLinkButton({ linkId }: DeleteLinkButtonProps) {
   const router = useRouter();
+  const { triggerRefresh } = usePreviewStore();
 
   const handleDelete = async () => {
     const response = await fetch(`/api/links?id=${linkId}`, {
@@ -28,6 +30,7 @@ export function DeleteLinkButton({ linkId }: DeleteLinkButtonProps) {
     });
 
     if (response.ok) {
+      triggerRefresh();
       router.refresh();
     } else {
       alert("Failed to delete link");

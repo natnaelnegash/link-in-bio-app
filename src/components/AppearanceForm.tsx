@@ -5,6 +5,7 @@ import { Card, CardContent } from "./ui/card";
 import { HexColorPicker } from "react-colorful";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import { usePreviewStore } from "@/lib/store";
 
 type Theme = {
   backgroundColor: string;
@@ -21,6 +22,7 @@ export function AppearanceForm({
 }) {
   const [theme, setTheme] = useState<Theme>(initialTheme || defaultTheme);
   const [isSaving, setIsSaving] = useState(false);
+  const { triggerRefresh } = usePreviewStore();
 
   const handleColorChange = (newColor: string) => {
     setTheme({ ...theme, backgroundColor: newColor });
@@ -33,6 +35,7 @@ export function AppearanceForm({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ theme }),
     });
+    triggerRefresh();
     setIsSaving(false);
   };
 

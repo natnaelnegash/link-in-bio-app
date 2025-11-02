@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -83,6 +84,13 @@ export default function SignUpPage() {
               Create Account
             </Button>
           </form>
+          <Link
+            className="text-sm font-bold text-slate-600"
+            href="/login
+          "
+          >
+            Already have account? Log in to continue
+          </Link>
         </CardContent>
       </Card>
     </div>

@@ -14,6 +14,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { usePreviewStore } from "@/lib/store";
 
 type AddLinkModalProps = {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export function AddLinkModal({ isOpen, setIsOpen }: AddLinkModalProps) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const { triggerRefresh } = usePreviewStore();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,7 +42,7 @@ export function AddLinkModal({ isOpen, setIsOpen }: AddLinkModalProps) {
       setTitle("");
       setUrl("");
       setIsOpen(false);
-
+      triggerRefresh();
       router.refresh();
     } else {
       const data = await response.json();

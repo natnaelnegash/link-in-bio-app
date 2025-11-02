@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { usePreviewStore } from "@/lib/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -29,6 +30,7 @@ export function ProfileForm({
     initialProfile?.avatarUrl
   );
   const [isSaving, setIsSaving] = useState(false);
+  const { triggerRefresh } = usePreviewStore();
   const router = useRouter();
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +58,7 @@ export function ProfileForm({
     });
 
     setIsSaving(false);
+    triggerRefresh();
     router.refresh();
   };
 

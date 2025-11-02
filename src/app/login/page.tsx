@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,10 +19,12 @@ export default function LoginInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     setError(null);
 
     const result = await signIn("credentials", {
@@ -36,6 +39,7 @@ export default function LoginInPage() {
     } else {
       setError("Invalid email or password. Please try again");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -70,10 +74,13 @@ export default function LoginInPage() {
               />
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Logging in" : "Login in"}
             </Button>
           </form>
+          <Link className="text-sm font-bold text-slate-600" href="/signup">
+            Dont have account? Create one
+          </Link>
         </CardContent>
       </Card>
     </div>

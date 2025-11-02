@@ -15,6 +15,8 @@ export async function PATCH( request: Request ) {
     }
 
     const formdata = await request.formData()
+    console.log(formdata);
+    
     const displayName = formdata.get('displayName') as string
     const bio = formdata.get('bio') as string
     const avatarFile = formdata.get('avatar') as File || null
@@ -22,7 +24,8 @@ export async function PATCH( request: Request ) {
     let avatarUrl: string | undefined = undefined
 
     if (avatarFile && avatarFile.size > 0) {
-        const blob = await put(avatarFile.name, avatarFile, {
+        const avatarFileName = avatarFile.name.toString() + Date.now().toString()
+        const blob = await put(avatarFileName, avatarFile, {
             access: 'public'
         })
         avatarUrl = blob.url
